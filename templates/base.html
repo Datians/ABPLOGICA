@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}ABP Lógica{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="container">
+  <h1>ABP Lógica</h1>
+  <p class="muted">3 proposiciones, conectivos seleccionables, lenguaje natural y tabla de verdad.</p>
+</header>
+
+<main class="container">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="container muted small">Hecho con ❤️ usando Python (Flask).</footer>
+</body>
+</html>

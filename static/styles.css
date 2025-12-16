@@ -1,0 +1,63 @@
+:root{
+    --bg:#0c1117; --fg:#e6edf3; --muted:#9aa4af; --card:#111827;
+    --accent:#5eead4; --line:#223042; --chip:#0f1722;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--fg)}
+  .container{max-width:1100px; margin:28px auto; padding:0 16px}
+  h1{margin:0 0 8px; font-size:36px; font-weight:800}
+  h2{margin:0 0 12px; font-size:20px; font-weight:700}
+  .small{font-size:12px}
+  .muted{color:var(--muted)}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .span-2{grid-column:span 2}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .input{
+    width:100%; padding:10px 12px; line-height:1.25; height:42px;
+    border-radius:10px; border:1px solid var(--line); background:#0d1520; color:var(--fg)
+  }
+  .narrow{max-width:110px}
+  .btn{padding:10px 14px; border:0; border-radius:10px; background:var(--accent); color:#063b32; font-weight:700; cursor:pointer}
+  .row{display:flex; gap:12px; align-items:center; margin-top:12px}
+  .state{font-weight:600}
+  .state.ok{color:#22c55e} .state.err{color:#ef4444}
+  .help{margin-bottom:8px}
+  .chip{
+    display:inline-block; padding:4px 8px; border-radius:8px; background:#0d1520;
+    border:1px solid var(--line); margin-right:6px; width:auto; min-width:32px; text-align:center
+  }
+  
+  .form-grid{display:block}
+  .row-atom{
+    display:grid; grid-template-columns:40px 1fr 120px 120px;
+    gap:8px; margin-bottom:8px
+  }
+  
+  /* --- Operadores alineados en una fila --- */
+  .row-ops{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:12px;
+    align-items:end;
+    margin-top:8px;
+  }
+  .row-ops label{
+    display:block;
+    margin-bottom:6px;
+    color:var(--muted);
+    font-size:13px;
+  }
+  
+  .table{width:100%; border-collapse:collapse; border:1px solid var(--line); margin-top:8px}
+  .table th,.table td{border:1px solid var(--line); padding:6px 8px; text-align:center}
+  .table th{background:#0d1520}
+  .badge{display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; border:1px solid var(--line); background:var(--chip)}
+  .ok{color:#22c55e} .warn{color:#f59e0b} .err{color:#ef4444}
+  .ln{min-height:44px; display:flex; align-items:center}
+  
+  @media (max-width: 900px){
+    .grid{grid-template-columns:1fr}
+    .span-2{grid-column:auto}
+    .row-ops{grid-template-columns:1fr}
+  }
+  

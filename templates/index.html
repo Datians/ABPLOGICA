@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}ABP Lógica – Fórmula libre{% endblock %}
+{% block content %}
+
+<div class="grid">
+  <section class="card">
+    <h2>1) Entradas</h2>
+    <form method="post" class="form-grid">
+
+      <div class="row-atom">
+        <label class="chip">p</label>
+        <input name="p_text" class="input" placeholder="Significado de p" value="{{ data.p_text }}">
+      </div>
+
+      <div class="row-atom">
+        <label class="chip">q</label>
+        <input name="q_text" class="input" placeholder="Significado de q" value="{{ data.q_text }}">
+      </div>
+
+      <div class="row-atom">
+        <label class="chip">r</label>
+        <input name="r_text" class="input" placeholder="Significado de r" value="{{ data.r_text }}">
+      </div>
+
+      <div class="row">
+        <label for="formula">Fórmula proposicional</label>
+        <input id="formula" name="formula" class="input"
+               placeholder="Ej: (p and q) imp r  |  (p iff q) xnor r  |  not (p or q)  |  p nand q"
+               value="{{ data.formula }}">
+        <small class="muted">
+          Operadores textuales: not, and, or, imp, iff, nand, nor, xor, xnor, nimp. &nbsp;|&nbsp;
+          Símbolos: ¬ o ! (no), ∧ o & (y), ∨ o | (o), → o -> (si… entonces), ↔ o &lt;-&gt; (si y solo si).
+        </small>
+      </div>
+
+      <div class="row">
+        <button class="btn">Generar</button>
+        {% if error %}
+          <span class="state err">{{ error }}</span>
+        {% elif resultado %}
+          <span class="state ok">Fórmula válida: {{ resultado.formula_text }}</span>
+        {% else %}
+          <span class="state muted">Escribe la fórmula y presiona Generar.</span>
+        {% endif %}
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Proposición en lenguaje natural</h2>
+    <div class="ln">
+      {% if resultado %}
+        {{ resultado.ln }}
+      {% else %}
+        <span class="muted">Se mostrará aquí al validar la fórmula.</span>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Operadores detectados</h2>
+    {% if resultado %}
+      <div class="ln">
+        {% if resultado.operators %}
+          {% for op in resultado.operators %}<span class="chip">{{ op }}</span>{% endfor %}
+        {% else %}
+          <span class="muted">No se detectaron operadores.</span>
+        {% endif %}
+      </div>
+    {% else %}
+      <span class="muted">Se mostrará aquí al validar la fórmula.</span>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h2>Resultado final + leyes aplicadas</h2>
+    {% if resultado %}
+      <div class="ln">
+        <div><b>Entrada (texto):</b> <code>{{ resultado.formula_text }}</code></div>
+        <div style="margin-top:8px"><b>Resultado final (simplificado):</b> <code>{{ resultado.simplified_text }}</code></div>
+        <div style="margin-top:8px"><b>Leyes aplicadas:</b>
+          {% if resultado.laws %}
+            {% for l in resultado.laws %}<span class="chip">{{ l }}</span>{% endfor %}
+          {% else %}
+            <span class="muted">(No se aplicaron leyes)</span>
+          {% endif %}
+        </div>
+
+        <div style="margin-top:10px"><b>Equivalencia solo con NAND:</b> <code>{{ resultado.nand_text }}</code></div>
+      </div>
+
+      {% if resultado.steps %}
+        <table class="table" style="margin-top:12px">
+          <thead>
+            <tr>
+              <th>Ley</th>
+              <th>Antes</th>
+              <th>Después</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in resultado.steps %}
+              <tr>
+                <td>{{ s.ley }}</td>
+                <td><code>{{ s.antes }}</code></td>
+                <td><code>{{ s.despues }}</code></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    {% else %}
+      <span class="muted">Se mostrará aquí al validar la fórmula.</span>
+    {% endif %}
+  </section>
+</div>
+
+<section class="card span-2">
+  <h2>Tabla de verdad</h2>
+  {% if resultado %}
+    <table class="table">
+      <thead>
+        <tr>
+          {% for v in resultado.vars_ord %}<th>{{ v }}</th>{% endfor %}
+          <th>{{ resultado.formula_text }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ctx, val in resultado.filas %}
+          <tr>
+            {% for v in resultado.vars_ord %}
+              <td>{{ 'V' if ctx[v] else 'F' }}</td>
+            {% endfor %}
+            <td>{{ 'V' if val else 'F' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="diagnostico">
+      {% if resultado.diag == 'Tautología' %}
+        <span class="badge ok">Tautología</span>
+      {% elif resultado.diag == 'Contradicción' %}
+        <span class="badge err">Contradicción</span>
+      {% else %}
+        <span class="badge warn">Contingencia</span>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}
