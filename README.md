@@ -2,7 +2,9 @@
 
 Integrantes de proyecto:
 David Andrés Cuadrado
+
 Marlon Steven Espinosa Prada
+
 Rusbell Oveymar Endes Cerón
 
 Aplicación web en **Python (Flask)** para trabajar con lógica proposicional usando **máximo 3 variables (p, q, r)**.
